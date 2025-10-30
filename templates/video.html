@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{{ video.title }}{% endblock %}
+{% block content %}
+<h1>{{ video.title }}</h1>
+<video width="640" height="360" controls controlsList="nodownload">
+    <source src="/uploads/{{ video.filename }}" type="video/mp4">
+</video>
+<p>Likes: {{ like_count }} | Unlikes: {{ unlike_count }}</p>
+{% if is_logged_in %}
+<form action="/like/{{ video.id }}" method="post">
+    <button type="submit" {% if user_vote and user_vote.vote == 1 %}disabled{% endif %}>Like</button>
+</form>
+<form action="/unlike/{{ video.id }}" method="post">
+    <button type="submit" {% if user_vote and user_vote.vote == -1 %}disabled{% endif %}>Unlike</button>
+</form>
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+    <li>{{ comment.text }} (by user {{ comment.user_id }})</li>
+    {% endfor %}
+</ul>
+<form action="/comment/{{ video.id }}" method="post">
+    <textarea name="text" required></textarea>
+    <button type="submit">Comment</button>
+</form>
+{% else %}
+<p>Login to like/unlike or comment.</p>
+{% endif %}
+{% endblock %}

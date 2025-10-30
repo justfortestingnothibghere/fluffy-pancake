@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Admin Panel{% endblock %}
+{% block content %}
+<h1>Admin Panel - Videos</h1>
+<ul>
+    {% for video in videos %}
+    <li>{{ video.title }} <a href="/delete/{{ video.id }}">Delete</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
